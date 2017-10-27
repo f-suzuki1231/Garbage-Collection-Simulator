@@ -20,7 +20,8 @@ public class Computer {
         this.memory = new Memory(new MarkSweepStrategy());
     }
 
-    public void run(Task task) {
-        task.content();
+    public void reportMemory(){
+        System.out.println(memory.getHeapPointer());
     }
+
 }

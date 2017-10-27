@@ -37,8 +37,10 @@ public class Memory {
 
     public int allocate(MyObject obj) throws MaxMemoryException {
         // heap is full, gc occur
-        if (heapPointer == size)
+        if (heapPointer == size){
+            System.out.println("Garbage collection start");
             heapPointer = garbageCollector.gc(this, gcStrategy);
+        }
         // heap is still full, throw exception
         if (heapPointer == size)
             throw new MaxMemoryException();
