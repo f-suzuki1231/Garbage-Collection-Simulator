@@ -3,7 +3,9 @@ package cn.jadyn.core;
 /**
  * Created by liangjiateng on 2017/10/26.
  */
-public interface GarbageCollector {
+public class GarbageCollector {
 
-    int gc(MyObject[] heap, int heapPointer);
+    public int gc(Memory memory, Strategy strategy) {
+        return strategy.execute(memory);
+    }
 }

@@ -1,5 +1,7 @@
 package cn.jadyn.core;
 
+import cn.jadyn.marksweep.MarkSweepStrategy;
+
 /**
  * Created by liangjiateng on 2017/10/26.
  */
@@ -7,11 +9,18 @@ public class Computer {
 
     protected Memory memory;
 
-    public Computer() {
-        this.memory = new Memory();
+    public Computer(Strategy strategy) throws WrongStrategyException {
+        if (strategy == null)
+            throw new WrongStrategyException();
+        else
+            this.memory = new Memory(strategy);
     }
 
-    public void run(Task task){
+    public Computer() {
+        this.memory = new Memory(new MarkSweepStrategy());
+    }
+
+    public void run(Task task) {
         task.content();
     }
 }

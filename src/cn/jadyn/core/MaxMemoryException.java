@@ -5,9 +5,8 @@ package cn.jadyn.core;
  */
 public class MaxMemoryException extends Exception {
 
-    private static final String msg = "Memory overflow!";
 
     public MaxMemoryException() {
-        super(msg);
+        super("Memory overflow!");
     }
 }

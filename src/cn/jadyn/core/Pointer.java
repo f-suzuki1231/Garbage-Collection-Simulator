@@ -5,14 +5,12 @@ package cn.jadyn.core;
  */
 public class Pointer extends Computer {
 
-    private int address;
-
-    private MyObject object;
+    private int address = -1;
 
     public Pointer(MyObject object) {
         if (object != null) {
-            this.object = object;
-            address = object.getAddress();
+            this.address = object.getAddress();
+            memory.addPointer(this);
         }
     }
 
@@ -21,14 +19,17 @@ public class Pointer extends Computer {
     }
 
     public MyObject getObject() {
-        return object;
+        return memory.getHeap()[address];
     }
 
-    public void pointTo(MyObject object) {
-        this.object = object;
-        if (object == null)
-            this.address = -1;
-        else
+    protected void pointTo(int address) {
+        this.address = address;
+    }
+
+    protected void pointTo(MyObject object) {
+        if (object != null)
             this.address = object.getAddress();
+        else
+            this.address = -1;
     }
 }
