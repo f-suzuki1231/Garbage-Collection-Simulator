@@ -8,4 +8,4 @@ I only consider stack which saves references(pointer) and heap which saves objec
 
 ![structure](/img/1.png)
 
-I only pay attention GC strategies, no more other optimizations.
+I only paid attention to GC strategies, no more other optimizations.
