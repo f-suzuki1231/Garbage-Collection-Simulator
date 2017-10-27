@@ -7,6 +7,7 @@ This is a simulator to simulate garbage collection mechanism by using Java. I wr
 
 ## Software structure
 Here is the core structure:
+
 ![uml](/img/uml1.png)
 
 ### Computer
