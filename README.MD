@@ -3,23 +3,9 @@
 ## Overview
 This is a simulator to simulate garbage collection mechanism by using Java. I wrote this in order to learn GC. It contains `mark and sweep`, `copying`, `reference counting` GC strategies. Here is the background knowledge: 
 
-[Garbage Collection](http://www.liangjiateng.cn/2017/10/26/PL%E2%80%94%E2%80%94Garbage-Collection/#more)
+## Note
+I only consider stack which saves reference(pointer) and heap which saves object. `Field` is also a kind of reference(pointer) which describe objects' attributes. I saved it into `fieldArea` which is not exist in real computer. Just for convenience Memory size is 128. Here is the structure I want to describe. 
 
-## Software structure
-Here is the core structure:
+![structure](/img/1.png)
 
-![uml](/img/uml1.png)
-
-### Computer
-
-### Memory
-
-### MyObject
-
-### Pointer
-
-### GarbageCollector
-
-### Strategies
-
-### Other
+I only pay attention GC strategies, no more other optimizations.

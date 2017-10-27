@@ -25,8 +25,14 @@ public class Computer {
     public Pointer createPointer(MyObject object) throws NoMemoryException {
         return new Pointer(object, this);
     }
+    public Field createField(MyObject object) throws NoMemoryException {
+        return new Field(object, this);
+    }
+    public void gc(){
+        this.memory.gc();
+    }
 
-    public MyObject createObject(Class<? extends MyObject> cls, Pointer[] fields) throws MaxMemoryException, NoMemoryException {
+    public MyObject createObject(Class<? extends MyObject> cls, Field[] fields) throws MaxMemoryException, NoMemoryException {
         switch (cls.getName()) {
             case "cn.jadyn.marksweep.MSObject":
                 return new MSObject(fields, this);

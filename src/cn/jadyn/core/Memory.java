@@ -1,5 +1,6 @@
 package cn.jadyn.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -12,6 +13,8 @@ public class Memory {
 
     private List<Pointer> staticArea;
 
+    private List<Field> fieldsArea;
+
     private MyObject[] heap;
 
     private int heapPointer;
@@ -21,10 +24,11 @@ public class Memory {
     private Strategy gcStrategy;
 
     public Memory(Strategy strategy) {
-        this.staticArea = new Stack<>();
+        this.staticArea = new ArrayList<>();
         this.heap = new MyObject[size];
         this.gcStrategy = strategy;
         this.garbageCollector = new GarbageCollector();
+        this.fieldsArea = new ArrayList<>();
     }
 
     public void addPointer(Pointer p) {
@@ -35,9 +39,17 @@ public class Memory {
         staticArea.remove(p);
     }
 
+    public void addField(Field p) {
+        fieldsArea.add(p);
+    }
+
+    public void removeField(Field p) {
+        fieldsArea.remove(p);
+    }
+
     public int allocate(MyObject obj) throws MaxMemoryException {
         // heap is full, gc occur
-        if (heapPointer == size){
+        if (heapPointer == size) {
             System.out.println("Garbage collection start");
             heapPointer = garbageCollector.gc(this, gcStrategy);
         }
@@ -46,6 +58,15 @@ public class Memory {
             throw new MaxMemoryException();
         heap[heapPointer] = obj;
         return heapPointer++;
+    }
+
+    public List<Field> getFieldsArea() {
+        return fieldsArea;
+    }
+
+    public void gc() {
+        System.out.println("Garbage collection start");
+        heapPointer = garbageCollector.gc(this, gcStrategy);
     }
 
     public MyObject[] getHeap() {

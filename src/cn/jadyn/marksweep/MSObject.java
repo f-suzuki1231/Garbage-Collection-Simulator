@@ -9,7 +9,7 @@ public class MSObject extends MyObject {
 
     private boolean mark;
 
-    public MSObject(Pointer[] fields, Computer computer) throws MaxMemoryException, NoMemoryException {
+    public MSObject(Field[] fields, Computer computer) throws MaxMemoryException, NoMemoryException {
         super(fields, computer);
     }
 
@@ -22,8 +22,5 @@ public class MSObject extends MyObject {
         this.mark = mark;
     }
 
-    @Override
-    public Pointer[] getFields() {
-        return super.getFields();
-    }
+
 }

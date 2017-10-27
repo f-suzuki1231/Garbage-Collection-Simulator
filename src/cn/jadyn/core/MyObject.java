@@ -1,22 +1,23 @@
 package cn.jadyn.core;
 
-import java.util.List;
+
 
 /**
  * Created by liangjiateng on 2017/10/26.
  */
 public class MyObject {
 
-    private Pointer[] fields;
+    private Field[] fields;
 
     private int address = -1;
 
 
-    public MyObject(Pointer[] fields, Computer computer) throws MaxMemoryException, NoMemoryException {
+    public MyObject(Field[] fields, Computer computer) throws MaxMemoryException, NoMemoryException {
         if (computer == null)
             throw new NoMemoryException();
         this.address = computer.memory.allocate(this);
         this.fields = fields;
+
 
     }
 
@@ -28,7 +29,11 @@ public class MyObject {
         this.address = address;
     }
 
-    public Pointer[] getFields() {
+    public Field[] getFields() {
         return fields;
+    }
+
+    public void setFields(Field[] fields) {
+        this.fields = fields;
     }
 }

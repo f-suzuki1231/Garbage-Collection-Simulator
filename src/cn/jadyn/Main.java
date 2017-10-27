@@ -1,30 +1,26 @@
 package cn.jadyn;
 
-import cn.jadyn.core.Computer;
-import cn.jadyn.core.MaxMemoryException;
-import cn.jadyn.core.NoMemoryException;
-import cn.jadyn.core.Pointer;
+import cn.jadyn.core.*;
 import cn.jadyn.marksweep.MSObject;
 
 public class Main {
 
     public static void main(String[] args) throws MaxMemoryException, NoMemoryException {
         Computer computer = new Computer();
-        for (int i = 0; i < 128; i++) {
-            Pointer[] fields = new Pointer[2];
-            MSObject namestr = (MSObject) computer.createObject(MSObject.class, null);
-            Pointer name = computer.createPointer(namestr);
-            MSObject ageint = (MSObject) computer.createObject(MSObject.class, null);
-            Pointer age = computer.createPointer(ageint);
-            fields[0] = name;
-            fields[1] = age;
-            MSObject msObject = (MSObject) computer.createObject(MSObject.class, fields);
-            Pointer pointer = computer.createPointer(msObject);
-            if (i % 3 == 0)
-                pointer.pointTo(-1);
-        }
+        Pointer p1 = computer.createPointer(null);
+        MSObject obj1 = (MSObject) computer.createObject(MSObject.class, null);
+        p1.pointTo(obj1);
+        MSObject obj2 = (MSObject) computer.createObject(MSObject.class, null);
+        Pointer p3 = computer.createPointer(null);
+        MSObject obj3 = (MSObject) computer.createObject(MSObject.class, null);
+        p3.pointTo(obj3);
+        MSObject obj4 = (MSObject) computer.createObject(MSObject.class, null);
+        Field[] fields =new Field[1];
+        Field name = computer.createField(obj4);
+        fields[0] = name;
+        obj1.setFields(fields);
 
-
+        computer.gc();
         computer.reportMemory();
 
     }
