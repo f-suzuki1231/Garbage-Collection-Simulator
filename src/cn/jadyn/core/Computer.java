@@ -1,5 +1,6 @@
 package cn.jadyn.core;
 
+import cn.jadyn.marksweep.MSObject;
 import cn.jadyn.marksweep.MarkSweepStrategy;
 
 /**
@@ -20,8 +21,25 @@ public class Computer {
         this.memory = new Memory(new MarkSweepStrategy());
     }
 
-    public void reportMemory(){
+
+    public Pointer createPointer(MyObject object) throws NoMemoryException {
+        return new Pointer(object, this);
+    }
+
+    public MyObject createObject(Class<? extends MyObject> cls, Pointer[] fields) throws MaxMemoryException, NoMemoryException {
+        switch (cls.getName()) {
+            case "cn.jadyn.marksweep.MSObject":
+                return new MSObject(fields, this);
+            default:
+                break;
+
+        }
+        return null;
+    }
+
+    public void reportMemory() {
         System.out.println(memory.getHeapPointer());
     }
+
 
 }

@@ -11,13 +11,13 @@ public class MyObject {
 
     private int address = -1;
 
-    private Computer computer;
 
     public MyObject(Pointer[] fields, Computer computer) throws MaxMemoryException, NoMemoryException {
         if (computer == null)
             throw new NoMemoryException();
         this.address = computer.memory.allocate(this);
         this.fields = fields;
+
     }
 
     public int getAddress() {

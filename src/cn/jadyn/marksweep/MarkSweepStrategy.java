@@ -24,6 +24,8 @@ public class MarkSweepStrategy implements Strategy {
     }
 
     private void mark(Pointer pointer) {
+        if(pointer == null)
+            return;
         MSObject msObject = (MSObject) pointer.getObject();
         if (msObject == null)
             return;

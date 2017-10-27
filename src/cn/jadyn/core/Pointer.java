@@ -18,6 +18,9 @@ public class Pointer {
             computer.memory.addPointer(this);
         }
     }
+    private Pointer(){
+
+    }
 
     public int getAddress() {
         return address;
@@ -44,3 +47,4 @@ public class Pointer {
             this.address = -1;
     }
 }
+
