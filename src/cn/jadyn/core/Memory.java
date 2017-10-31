@@ -1,5 +1,7 @@
 package cn.jadyn.core;
 
+import cn.jadyn.marksweep.MarkSweepStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -22,6 +24,16 @@ public class Memory {
     private GarbageCollector garbageCollector;
 
     private Strategy gcStrategy;
+
+    private boolean swapped;
+
+    public boolean isSwapped() {
+        return swapped;
+    }
+
+    public void setSwapped(boolean swapped) {
+        this.swapped = swapped;
+    }
 
     public Memory(Strategy strategy) {
         this.staticArea = new ArrayList<>();
