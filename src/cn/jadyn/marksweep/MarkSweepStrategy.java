@@ -52,7 +52,6 @@ public class MarkSweepStrategy implements Strategy {
 
     private int compact(Memory memory, MyObject[] heap) {
         // compact
-        //Todo: Pointer address bug
         MyObject[] newHeap = new MyObject[memory.getSize()];
         int count = 0;
         for (int i = 0; i < memory.getHeapPointer(); i++) {

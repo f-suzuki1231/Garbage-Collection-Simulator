@@ -1,5 +1,6 @@
 package cn.jadyn.core;
 
+import cn.jadyn.copying.CPObject;
 import cn.jadyn.marksweep.MSObject;
 import cn.jadyn.marksweep.MarkSweepStrategy;
 
@@ -36,6 +37,8 @@ public class Computer {
         switch (cls.getName()) {
             case "cn.jadyn.marksweep.MSObject":
                 return new MSObject(fields, this);
+            case "cn.jadyn.copying.CPObject":
+                return new CPObject(fields, this);
             default:
                 break;
 
@@ -44,8 +47,7 @@ public class Computer {
     }
 
     public void reportMemory() {
-        System.out.println(memory.getHeapPointer());
+        System.out.println(memory.getHeapPointer() - 1);
     }
-
 
 }

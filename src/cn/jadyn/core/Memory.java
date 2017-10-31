@@ -27,6 +27,9 @@ public class Memory {
 
     private boolean swapped;
 
+    private MyObject[] from;
+    private MyObject[] to;
+
     public boolean isSwapped() {
         return swapped;
     }
@@ -41,6 +44,9 @@ public class Memory {
         this.gcStrategy = strategy;
         this.garbageCollector = new GarbageCollector();
         this.fieldsArea = new ArrayList<>();
+
+        this.from = new MyObject[size];
+        this.to = new MyObject[size];
     }
 
     public void addPointer(Pointer p) {
@@ -60,15 +66,33 @@ public class Memory {
     }
 
     public int allocate(MyObject obj) throws MaxMemoryException {
-        // heap is full, gc occur
-        if (heapPointer == size) {
-            System.out.println("Garbage collection start");
-            heapPointer = garbageCollector.gc(this, gcStrategy);
+        switch (gcStrategy.getClass().getName()) {
+            case "cn.jadyn.marksweep.MarkSweepStrategy":
+                // heap is full, gc occur
+                if (heapPointer == size) {
+                    System.out.println("Garbage collection start");
+                    heapPointer = garbageCollector.gc(this, gcStrategy);
+                }
+                // heap is still full, throw exception
+                if (heapPointer == size)
+                    throw new MaxMemoryException();
+                heap[heapPointer] = obj;
+                break;
+            case "cn.jadyn.copying.CopyingStrategy":
+                // heap is full, gc occur
+                if (heapPointer == size) {
+                    System.out.println("Garbage collection start");
+                    heapPointer = garbageCollector.gc(this, gcStrategy);
+                }
+                // heap is still full, throw exception
+                if (heapPointer == size)
+                    throw new MaxMemoryException();
+                if (!isSwapped())
+                    from[heapPointer] = obj;
+                else
+                    to[heapPointer] = obj;
+                break;
         }
-        // heap is still full, throw exception
-        if (heapPointer == size)
-            throw new MaxMemoryException();
-        heap[heapPointer] = obj;
         return heapPointer++;
     }
 
@@ -79,6 +103,7 @@ public class Memory {
     public void gc() {
         System.out.println("Garbage collection start");
         heapPointer = garbageCollector.gc(this, gcStrategy);
+        heapPointer++;
     }
 
     public MyObject[] getHeap() {
@@ -101,4 +126,21 @@ public class Memory {
     public void setHeap(MyObject[] heap) {
         this.heap = heap;
     }
+
+    public MyObject[] getFrom() {
+        return from;
+    }
+
+    public void setFrom(MyObject[] from) {
+        this.from = from;
+    }
+
+    public MyObject[] getTo() {
+        return to;
+    }
+
+    public void setTo(MyObject[] to) {
+        this.to = to;
+    }
+
 }

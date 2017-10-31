@@ -1,21 +1,23 @@
 package cn.jadyn.copying;
 
-import cn.jadyn.core.Field;
-import cn.jadyn.core.Memory;
-import cn.jadyn.core.Pointer;
-import cn.jadyn.core.Strategy;
+import cn.jadyn.core.*;
 
 /**
  * Created by liangjiateng on 2017/10/31.
  */
 public class CopyingStrategy implements Strategy {
+
+    private int point ;
+
     @Override
     public int execute(Memory memory) {
+        point = 0;
         for (Pointer pointer : memory.getStaticArea()) {
             forward(pointer, memory);
         }
         memory.setSwapped(!memory.isSwapped());
-        return 1;
+        sweep(memory);
+        return point;
     }
 
     public void forward(Pointer p, Memory memory) {
@@ -27,9 +29,9 @@ public class CopyingStrategy implements Strategy {
         else {
             int newAddress;
             if (memory.isSwapped())
-                newAddress = copy(p, 0, 64, memory);
+                newAddress = copy(p, memory.getFrom());
             else
-                newAddress = copy(p, 64, 128, memory);
+                newAddress = copy(p, memory.getTo());
             ((CPObject) p.getObject()).setForwardAddress(newAddress);
             for (Field field : p.getObject().getFields()) {
                 forward(field, memory);
@@ -38,12 +40,19 @@ public class CopyingStrategy implements Strategy {
         }
     }
 
-    public int copy(Pointer p, int start, int end, Memory memory) {
-        int heapPoint = start;
-        return heapPoint;
+    public int copy(Pointer p, MyObject[] TO) {
+        TO[point] = p.getObject();
+        return ++point;
     }
 
-    public void sweep() {
-
+    public void sweep(Memory memory) {
+        MyObject[] myObjects;
+        if (memory.isSwapped()) {
+            myObjects = memory.getTo();
+        } else
+            myObjects = memory.getFrom();
+        for (int i = 0; i < memory.getSize(); i++) {
+            myObjects[i] = null;
+        }
     }
 }
